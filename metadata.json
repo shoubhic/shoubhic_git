@@ -1,0 +1,6 @@
+{
+  "name": "AI Agent Blueprint & RAG Studio",
+  "description": "A full-stack sandbox dashboard and simulator for multi-agent orchestration, RAG pipelines, and tool execution.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
