@@ -303,6 +303,48 @@ export default function OrchestrationView({
       icon: Sliders,
       prompt: 'Analyze our Q2 grocery margins, query inventory databases, and draft an executive competitor response plan.',
       desc: 'Activates Sourcing Specialist ➔ pulls competitive arrays ➔ triggers Synthesis Agent for executive layout.'
+    },
+    {
+      id: 'sla_triage',
+      title: 'SLA Support Triage',
+      icon: Clock,
+      prompt: 'Our Tier 1 support team had a 3-hour SLA breach on ticket 405. Determine the escalation path and technical rules.',
+      desc: 'Classifies support query ➔ retrieves technical support tiering documentation ➔ flags SLA breaches.'
+    },
+    {
+      id: 'travel_expense',
+      title: 'Travel Expense Audit',
+      icon: FileText,
+      prompt: 'Audit an international travel expense claim of $350 lodging per night and meal receipts of $120. Check guidelines.',
+      desc: 'Routes expense inquiry ➔ fetches corporate travel reimbursement limits ➔ checks compliance rules.'
+    },
+    {
+      id: 'security_pii',
+      title: 'Security & PII Audit',
+      icon: ShieldAlert,
+      prompt: 'A sub-agent log has unmasked customer billing details. What GDPR/CCPA rules apply and how to audit logs?',
+      desc: 'Identifies privacy concern ➔ searches GDPR compliance rules ➔ details access auditor routines.'
+    },
+    {
+      id: 'vendor_framework',
+      title: 'Vendor Price Audit',
+      icon: Server,
+      prompt: 'Our grocery supplier wants a 6.5% price hike. Check vendor performance scoring and price hike rules.',
+      desc: 'Triggers supplier matrix lookup ➔ retrieves price hike limits (4.5%) ➔ suggests sourcing specialist tools.'
+    },
+    {
+      id: 'disaster_recovery',
+      title: 'Disaster Failover Protocol',
+      icon: Database,
+      prompt: 'Our primary database went offline 10 minutes ago. What is our RTO target and failover procedure?',
+      desc: 'Routes system continuity inquiry ➔ queries disaster recovery rules (RPO/RTO) ➔ plans backup recovery.'
+    },
+    {
+      id: 'remote_equipment',
+      title: 'Remote Equip Stipend',
+      icon: Sliders,
+      prompt: 'Remote employee requests replacement laptop and screen. What remote work equipment stipend rules apply?',
+      desc: 'Identifies employee query ➔ searches equipment allocation policy ➔ validates replacement deadlines.'
     }
   ];
 
@@ -419,6 +461,65 @@ export default function OrchestrationView({
                 )}
               </button>
             </div>
+
+            {/* Final Synthesized Output - Instant UX impact */}
+            <AnimatePresence>
+              {currentAnimStep > activePipelineSteps.length + 1 && activePipelineSteps.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0, y: 10 }}
+                  animate={{ opacity: 1, height: 'auto', y: 0 }}
+                  exit={{ opacity: 0, height: 0, y: 10 }}
+                  className="border border-emerald-200 bg-emerald-50/60 rounded-2xl p-5 shadow-sm relative overflow-hidden mt-2"
+                >
+                  {/* Subtle Grid overlay */}
+                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#05966906_1px,transparent_1px),linear-gradient(to_bottom,#05966906_1px,transparent_1px)] bg-[size:14px_14px] pointer-events-none"></div>
+                  
+                  <div className="relative space-y-3">
+                    <div className="flex items-center justify-between border-b border-emerald-200/50 pb-2.5">
+                      <div className="flex items-center gap-1.5">
+                        <Sparkles className="w-4 h-4 text-emerald-600 animate-pulse" />
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-800">
+                          Final Synthesized Output (Outcome)
+                        </h4>
+                      </div>
+                      <span className="text-[9px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-200/60 px-2 py-0.5 rounded">
+                        COMPLETED
+                      </span>
+                    </div>
+
+                    <div className="text-xs text-slate-700 leading-relaxed font-sans max-h-72 overflow-y-auto pr-1 space-y-2">
+                      <p className="font-semibold text-emerald-800 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        Definite Answer (Grounded Output):
+                      </p>
+                      
+                      <div className="text-slate-800 bg-white p-4 rounded-xl border border-emerald-100 leading-relaxed font-sans text-xs shadow-inner">
+                        <Markdown
+                          components={{
+                            p: ({node, ...props}) => <p className="mb-2 last:mb-0 text-slate-700 leading-relaxed font-normal" {...props} />,
+                            ul: ({node, ...props}) => <ul className="list-disc pl-4 mb-2 space-y-1 text-slate-700 font-normal" {...props} />,
+                            ol: ({node, ...props}) => <ol className="list-decimal pl-4 mb-2 space-y-1 text-slate-700 font-normal" {...props} />,
+                            li: ({node, ...props}) => <li className="text-slate-700 font-normal" {...props} />,
+                            strong: ({node, ...props}) => <strong className="text-emerald-900 font-bold" {...props} />,
+                            code: ({node, ...props}) => <code className="bg-slate-50 px-1 py-0.5 rounded font-mono text-[10px] text-indigo-600 border border-slate-200" {...props} />,
+                          }}
+                        >
+                          {activePipelineSteps[activePipelineSteps.length - 1]?.message || ''}
+                        </Markdown>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-x-4 gap-y-2 items-center text-[9px] text-slate-500 font-mono pt-2 border-t border-emerald-200/50">
+                      <span>Cumulative Cost: <strong className="text-slate-700 font-semibold">{activePipelineSteps.reduce((sum, s) => sum + s.prompt_tokens, 0)} tokens</strong></span>
+                      <span>•</span>
+                      <span>Total Steps: <strong className="text-slate-700 font-semibold">{activePipelineSteps.length + 1}</strong></span>
+                      <span>•</span>
+                      <span>Execution Success: <strong className="text-emerald-600 font-bold">100%</strong></span>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Panel 2: Interactive Registry & Matcher (Side Tab Deck) */}
@@ -798,11 +899,25 @@ export default function OrchestrationView({
                         </div>
 
                         {/* Rich Compiled Response Output */}
-                        <div className="text-xs text-slate-200 leading-relaxed font-sans max-h-48 overflow-y-auto pr-1">
-                          <p className="font-semibold text-slate-100 mb-1">Response:</p>
-                          <p className="text-slate-300 bg-slate-950/40 p-3.5 rounded-xl border border-slate-800 font-mono text-[11px] leading-relaxed whitespace-pre-wrap">
-                            {activePipelineSteps[activePipelineSteps.length - 1]?.message}
+                        <div className="text-xs text-slate-200 leading-relaxed font-sans max-h-60 overflow-y-auto pr-1 space-y-2">
+                          <p className="font-semibold text-emerald-400 mb-1 flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            Definite Answer (Grounded Output):
                           </p>
+                          <div className="text-slate-100 bg-slate-950/60 p-4 rounded-xl border border-emerald-800/60 leading-relaxed font-sans text-xs shadow-inner">
+                            <Markdown
+                              components={{
+                                p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                                ul: ({node, ...props}) => <ul className="list-disc pl-4 mb-2 space-y-1 text-slate-200" {...props} />,
+                                ol: ({node, ...props}) => <ol className="list-decimal pl-4 mb-2 space-y-1 text-slate-200" {...props} />,
+                                li: ({node, ...props}) => <li className="text-slate-200" {...props} />,
+                                strong: ({node, ...props}) => <strong className="text-emerald-300 font-bold" {...props} />,
+                                code: ({node, ...props}) => <code className="bg-slate-900 px-1 py-0.5 rounded font-mono text-[10px] text-indigo-300 border border-slate-800" {...props} />,
+                              }}
+                            >
+                              {activePipelineSteps[activePipelineSteps.length - 1]?.message || ''}
+                            </Markdown>
+                          </div>
                         </div>
 
                         <div className="flex flex-wrap gap-x-4 gap-y-2 items-center text-[9px] text-slate-400 font-mono pt-2 border-t border-emerald-900/20">
